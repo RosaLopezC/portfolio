@@ -1276,7 +1276,7 @@
                             <div class="stat-label">Proyectos<br>completados</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">100%</div>
+                            <div class="stat-number" id="passion-counter">0%</div>
                             <div class="stat-label">Pasión por<br>el diseño ✨</div>
                         </div>
                     </div>
@@ -1800,24 +1800,40 @@
                 this.parentElement.style.transform = 'scale(1)';
             });
         });
+
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const statNumber = entry.target.querySelector('.stat-number');
-                    const finalNumber = parseInt(statNumber.textContent);
-                    let currentNumber = 0;
-                    const increment = finalNumber / 50;
-                    
-                    const counter = setInterval(() => {
-                        currentNumber += increment;
-                        if (currentNumber >= finalNumber) {
-                            statNumber.textContent = finalNumber + '+';
-                            clearInterval(counter);
-                        } else {
-                            statNumber.textContent = Math.floor(currentNumber) + '+';
-                        }
-                    }, 30);
-                    
+                    // Si es el contador de pasión, animar hasta 100%
+                    if (statNumber && statNumber.id === 'passion-counter') {
+                        let current = 0;
+                        const end = 100;
+                        const duration = 1200;
+                        const step = Math.ceil(end / (duration / 20));
+                        const interval = setInterval(() => {
+                            current += step;
+                            if (current >= end) {
+                                statNumber.textContent = '100%';
+                                clearInterval(interval);
+                            } else {
+                                statNumber.textContent = current + '%';
+                            }
+                        }, 20);
+                    } else if (statNumber) {
+                        const finalNumber = parseInt(statNumber.textContent);
+                        let currentNumber = 0;
+                        const increment = finalNumber / 50;
+                        const counter = setInterval(() => {
+                            currentNumber += increment;
+                            if (currentNumber >= finalNumber) {
+                                statNumber.textContent = finalNumber + '+';
+                                clearInterval(counter);
+                            } else {
+                                statNumber.textContent = Math.floor(currentNumber) + '+';
+                            }
+                        }, 30);
+                    }
                     statsObserver.unobserve(entry.target);
                 }
             });
