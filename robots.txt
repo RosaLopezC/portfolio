@@ -1,0 +1,13 @@
+# robots.txt — rldev.net.pe
+# Rosa López | UX/UI Designer & Frontend Developer Freelance — Lima, Perú
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rldev.net.pe/sitemap.xml
+
+# Bloquear archivos innecesarios para indexar
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /src/
